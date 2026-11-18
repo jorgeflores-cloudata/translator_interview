@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Meet · English Assistant</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand"><span class="brand-icon" aria-hidden="true">m</span><div><h1>Meet Assistant</h1><p>Listen live · answer with context</p></div></div>
+    <span id="status" role="status">Not connected</span>
+  </header>
+  <section class="capture-bar" aria-label="Audio capture">
+    <div class="toolbar"><button id="start"><span aria-hidden="true">●</span> Listen to Meet</button><button id="stop" class="secondary" disabled>Stop</button><div class="meter" aria-hidden="true"><div id="level"></div></div></div>
+  </section>
+  <details id="settings" class="settings panel">
+    <summary><span>API & settings</span><span id="api-status" class="api-badge">Checking…</span></summary>
+    <form id="key-form" autocomplete="off">
+      <label for="api-key">OpenAI API key</label>
+      <div class="key-row"><input id="api-key" type="password" name="openai_api_key" autocomplete="off" spellcheck="false" autocapitalize="none" maxlength="1024" required placeholder="Paste your API key"><button type="button" id="toggle-key" class="secondary small" aria-pressed="false" aria-controls="api-key">Show</button></div>
+      <label class="check-label"><input type="checkbox" id="remember-key"> Remember on this device</label>
+      <p class="hint">Optional: Windows encrypts it for your account. Otherwise, it lasts until the server closes.</p>
+      <div class="key-actions"><button id="save-key" type="submit" class="small">Apply key</button><button id="clear-key" type="button" class="secondary small" disabled>Remove key</button></div>
+      <p id="key-message" class="hint" role="status">No restart needed. The key is checked when you use the API.</p>
+    </form>
+    <div class="preferences">
+      <label for="context">Your context <span class="optional">· optional</span></label>
+      <textarea id="context" rows="3" maxlength="16000" placeholder="Your role, experience, and technologies…"></textarea>
+      <label for="threshold">Voice threshold</label>
+      <input id="threshold" type="range" min="0.002" max="0.05" step="0.001" value="0.008">
+      <p class="hint">Lower this if speech is missed. Your context stays in this tab only.</p>
+    </div>
+  </details>
+  <div id="error" role="alert" hidden></div>
+  <div class="workspace">
+  <section class="panel live-transcript" aria-label="Live transcript">
+    <div class="panel-title"><h2><span class="live-dot" aria-hidden="true"></span> Live transcript</h2><button id="clear" class="secondary small">Clear</button></div>
+    <div id="transcript" class="transcript-feed" role="log" aria-live="polite"><p class="empty">English only · accuracy first. Recognized speech will appear here.</p></div>
+    <div class="transcript-meta"><span id="context-count">0 turns in context</span><span id="latency">Waiting for audio</span></div>
+  </section>
+  <div class="side-column">
+  <section class="question-area panel" aria-label="Question list">
+    <div class="panel-title"><h2>Detected questions <span id="question-count">0</span></h2><span id="question-state" role="status">Waiting for a question</span></div>
+    <div id="questions-list" class="questions-list" role="list" aria-label="Questions from the conversation"><p class="empty">Detected questions will appear here.</p></div>
+    <label for="question">Selected question</label>
+    <textarea id="question" rows="2" readonly placeholder="Select a confirmed question to enable the answer button…"></textarea>
+    <button id="answer" disabled>Generate English answer <span aria-hidden="true">↗</span></button>
+  </section>
+  <section class="panel response" aria-label="Suggested answer">
+    <div class="panel-title"><h2><span class="live-dot" aria-hidden="true"></span> Suggested answer</h2><button id="copy" class="secondary small" disabled>Copy</button></div>
+    <p id="answered-question" class="hint" hidden></p>
+    <div id="response" aria-live="polite">When a question is detected, click to generate an answer.</div>
+    <p class="hint response-note">A suggestion only. Nothing is sent to or spoken in Meet.</p>
+  </section>
+  </div>
+  </div>
+  <details class="panel manual">
+    <summary>Add context or a question</summary>
+    <label for="manual-text">Statement or question</label>
+    <textarea id="manual-text" rows="2" maxlength="16000" placeholder="Add English context or a question to the conversation…"></textarea>
+    <button id="analyze-manual" class="secondary small">Add to context and detect questions</button>
+  </details>
+  <footer>Share the Meet tab with permission · Processed by OpenAI</footer>
+</main>
+<script src="/realtime.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
